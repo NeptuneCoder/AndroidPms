@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Permission</string>
+    <string name="aot_setting_again">申請權限</string>
+    <string name="aot_go_accredit">去授权</string>
+    <string name="aot_exit_game">退出遊戲</string>
+    <string name="aot_refuse_permission_of_external_storage">非常抱歉！遊戲運行需要使用儲存設備權限，如果沒有儲存設備的使用權限，遊戲無法保證正常進行</string>
+    <string name="aot_refuse_permission_of_record_audio">非常抱歉！遊戲運行需要使用錄音權限，如果沒有此授權將無法保證遊戲能正常執行</string>
+    <string name="aot_refuse_permission_of_phone_state">非常抱歉！遊戲執行需要使用撥打電話及通話管理權限，如果沒有此授權將無法保證遊戲能正常執行</string>
+    <string name="aot_refuse_permission_of_camera">非常抱歉！遊戲運行需要使用拍攝相片及錄製影片權限，如果沒有此授權將無法保證遊戲能正常執行</string>
+</resources>
