@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        PermissionUtils.Builder builder = new PermissionUtils.Builder()
+        PermissionUtil.Builder builder = new PermissionUtil.Builder()
                 .setActivity(this)
                 .setExitListener(new IExitListener() {
                     @Override
@@ -32,16 +32,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        boolean b = PermissionUtils.getInstance().enterSettingPage();
+        boolean b = PermissionUtil.getInstance().enterSettingPage();
         Log.i("onResume", "onResume = " + b);
         if (b) {
-            PermissionUtils.getInstance().requestPermissions();
+            PermissionUtil.getInstance().requestPermissions();
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        PermissionUtils.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionUtil.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

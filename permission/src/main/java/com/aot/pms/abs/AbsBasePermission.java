@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
-import com.aot.pms.PermissionUtils;
+import com.aot.pms.PermissionUtil;
 import com.foyoent.ossdk.agent.R;
 
 
@@ -73,7 +73,7 @@ public abstract class AbsBasePermission {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                IExitListener exitListener = PermissionUtils.getInstance().getExitListener();
+                IExitListener exitListener = PermissionUtil.getInstance().getExitListener();
                 if (exitListener != null) {
                     exitListener.exit();
                 } else {

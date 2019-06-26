@@ -13,17 +13,17 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
-public class PermissionUtils implements IPermission {
+public class PermissionUtil implements IPermission {
 
 
-    private PermissionUtils() {
+    private PermissionUtil() {
     }
 
     private static class Holder {
-        private static PermissionUtils instance = new PermissionUtils();
+        private static PermissionUtil instance = new PermissionUtil();
     }
 
-    public static PermissionUtils getInstance() {
+    public static PermissionUtil getInstance() {
         return Holder.instance;
     }
 
@@ -108,6 +108,11 @@ public class PermissionUtils implements IPermission {
          * @return
          */
         public Builder addPermission(@NonNull String permissionName, @NonNull String tip) {
+            for (Item i : permissions) {
+                if (i.equals(permissionName)) {
+                    return this;
+                }
+            }
             permissions.add(new Item(permissionName, null == tip ? permissionName : tip));
             return this;
         }
@@ -124,7 +129,7 @@ public class PermissionUtils implements IPermission {
         }
 
         public void build() {
-            PermissionUtils.getInstance().requestPermissions();
+            PermissionUtil.getInstance().requestPermissions();
         }
     }
 
@@ -137,11 +142,11 @@ public class PermissionUtils implements IPermission {
             this.pmsDesc = pmsDesc;
         }
 
-        public boolean equals(Item obj) {
-            if (pmsName.equals(obj.pmsName)) {
+        public boolean equals(String pmsName) {
+            if (pmsName.equals(pmsName)) {
                 return true;
             } else {
-                return super.equals(obj);
+                return false;
             }
         }
     }
