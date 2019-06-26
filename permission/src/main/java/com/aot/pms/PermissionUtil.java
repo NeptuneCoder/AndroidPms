@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 public class PermissionUtil implements IPermission {
 
-
     private PermissionUtil() {
     }
 
