@@ -17,16 +17,33 @@ import com.foyoent.ossdk.agent.R;
 
 public abstract class AbsBasePermission {
 
+    /**
+     * 当拒绝权限时，dialog提示的信息
+     */
     protected final String desc;
+    /**
+     * 每一个权限，都有唯一的判断的code码，防止多个权限用同一个code导致的无法区分
+     */
     protected final int resultCode;
+    /**
+     * 当前权限的id
+     */
     protected final int pmsIndex;
+    /**
+     * 下一个权限
+     */
     protected AbsBasePermission nextPermission;
-    public String permissionStr;
-
+    /**
+     * 申请的权限名字
+     */
+    protected String permissionName;
+    /**
+     * 当前权限的id
+     */
     static int curPermissionIndex = 0;
 
-    protected AbsBasePermission(String permissionStr, String desc, int pmsIndex, int resultCode) {
-        this.permissionStr = permissionStr;
+    protected AbsBasePermission(String permissionName, String desc, int pmsIndex, int resultCode) {
+        this.permissionName = permissionName;
         this.desc = desc;
         this.pmsIndex = pmsIndex;
         this.resultCode = resultCode;
@@ -100,7 +117,7 @@ public abstract class AbsBasePermission {
      * @param requestPermission
      */
     private void createBuilder(final Activity activity, AlertDialog.Builder builder, final onRequestPermission requestPermission) {
-        final boolean b = shouldShowRequestPermissionRationale(activity, permissionStr);
+        final boolean b = shouldShowRequestPermissionRationale(activity, permissionName);
         builder.setPositiveButton(b ? R.string.aot_setting_again : R.string.aot_go_accredit, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -114,7 +131,7 @@ public abstract class AbsBasePermission {
                     Uri uri = Uri.fromParts("package", activity.getApplicationContext().getPackageName(), null);
                     intent.setData(uri);
                     isEnterSettingPage = 1000;
-                    Log.i("onResume", "isEnterSettingPage = " + isEnterSettingPage + "    name = " + permissionStr);
+                    Log.i("onResume", "isEnterSettingPage = " + isEnterSettingPage + "    name = " + permissionName);
                     if (activity != null) {
                         activity.startActivityForResult(intent, 10001);
                     }

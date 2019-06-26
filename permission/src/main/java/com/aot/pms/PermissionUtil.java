@@ -39,11 +39,13 @@ public class PermissionUtil implements IPermission {
     //记录第一个权限
     private static CustomPermission firstPermission = null;
 
+    /**
+     * 构建所有的权限后，调用该方法开始申请权限
+     */
     public void requestPermissions() {
-
         //构建完所有的权限后，请求第一个权限；
         Activity activity = weakRefActivity.get();
-        if (activity != null) {
+        if (activity != null && firstPermission != null) {
             firstPermission.requestPermissions(activity);
         }
     }

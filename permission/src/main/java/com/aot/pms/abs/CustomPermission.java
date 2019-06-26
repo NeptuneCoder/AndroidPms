@@ -16,11 +16,11 @@ public class CustomPermission extends AbsBasePermission {
 
     @Override
     public void requestPermissions(final Activity activity) {
-        if (ContextCompat.checkSelfPermission(activity, super.permissionStr)
+        if (ContextCompat.checkSelfPermission(activity, super.permissionName)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity,
                     new String[]{
-                            super.permissionStr,
+                            super.permissionName,
                     }, resultCode);
             curPermissionIndex = pmsIndex;
             super.isEnterSettingPage = 0;
