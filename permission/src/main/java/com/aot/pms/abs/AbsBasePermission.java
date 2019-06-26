@@ -63,7 +63,7 @@ public abstract class AbsBasePermission {
     }
 
     void exitApp(final Activity activity, String content, final onRequestPermission requestPermission) {
-        if (builder == null) {
+        if (builder == null && activity != null) {
             builder = new AlertDialog.Builder(activity);
         }
         builder.setMessage(content);
@@ -115,7 +115,9 @@ public abstract class AbsBasePermission {
                     intent.setData(uri);
                     isEnterSettingPage = 1000;
                     Log.i("onResume", "isEnterSettingPage = " + isEnterSettingPage + "    name = " + permissionStr);
-                    activity.startActivityForResult(intent, 10001);
+                    if (activity != null) {
+                        activity.startActivityForResult(intent, 10001);
+                    }
                 }
             }
         });

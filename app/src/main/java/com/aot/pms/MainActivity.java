@@ -14,8 +14,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        PermissionUtil.Builder builder = new PermissionUtil.Builder()
+        new PermissionUtil.Builder()
                 .setActivity(this)
+                //添加退出的回调
                 .setExitListener(new IExitListener() {
                     @Override
                     public void exit() {
@@ -26,8 +27,10 @@ public class MainActivity extends AppCompatActivity {
                 .addPermission(Manifest.permission.CALL_PHONE, Manifest.permission.CALL_PHONE)
                 .addPermission(Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_STATE)
                 .addPermission(Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_STATE)
-                .addPermission(Manifest.permission.READ_SMS, Manifest.permission.READ_SMS);
-        builder.build();
+                .addPermission(Manifest.permission.READ_SMS, Manifest.permission.READ_SMS)
+                .build();
+        PermissionUtil.getInstance().requestPermissions();
+
     }
 
     @Override
