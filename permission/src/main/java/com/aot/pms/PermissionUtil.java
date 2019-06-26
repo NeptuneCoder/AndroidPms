@@ -102,23 +102,20 @@ public class PermissionUtil implements IPermission {
             return this;
         }
 
+
         /**
          * @param permissionName 申请的 权限，必须是Manifest.permission中定义的
          * @param tip            如果用户拒绝给该权限的提示
          * @return
          */
         public Builder addPermission(@NonNull String permissionName, @NonNull String tip) {
-            for (Item i : permissions) {
-                if (i.equals(permissionName)) {
-                    return this;
-                }
-            }
+
             permissions.add(new Item(permissionName, null == tip ? permissionName : tip));
             return this;
         }
 
         /**
-         * 设置退出游戏的逻辑
+         * 设置退出的逻辑
          *
          * @param listener
          * @return
@@ -141,6 +138,7 @@ public class PermissionUtil implements IPermission {
             this.pmsName = pmsName;
             this.pmsDesc = pmsDesc;
         }
+
 
         public boolean equals(String pmsName) {
             if (pmsName.equals(pmsName)) {

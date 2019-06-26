@@ -8,6 +8,8 @@ import android.support.v4.content.ContextCompat;
 
 
 public class CustomPermission extends AbsBasePermission {
+
+
     public CustomPermission(String permissionStr, String desc, int pmsIndex, int resultCode) {
         super(permissionStr, desc, pmsIndex, resultCode);
     }
@@ -22,6 +24,7 @@ public class CustomPermission extends AbsBasePermission {
                     }, resultCode);
             curPermissionIndex = pmsIndex;
             super.isEnterSettingPage = 0;
+
         } else {
             if (super.nextPermission != null) super.nextPermission.requestPermissions(activity);
         }
