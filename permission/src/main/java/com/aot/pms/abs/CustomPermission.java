@@ -14,16 +14,34 @@ public class CustomPermission extends AbsBasePermission {
         super(permissionStr, desc, pmsIndex, resultCode, isForce);
     }
 
+    private boolean isFirstRequest = true;
+
     @Override
     public void requestPermissions(final Activity activity) {
         if (ContextCompat.checkSelfPermission(activity, super.permissionName)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity,
-                    new String[]{
-                            super.permissionName,
-                    }, resultCode);
-            curPermissionIndex = pmsIndex;
-            super.isEnterSettingPage = 0;
+            if (isForce) {
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{
+                                super.permissionName,
+                        }, resultCode);
+                curPermissionIndex = pmsIndex;
+                super.isEnterSettingPage = 0;
+            } else {
+                if (isFirstRequest) {
+                    isFirstRequest = false;
+                    ActivityCompat.requestPermissions(activity,
+                            new String[]{
+                                    super.permissionName,
+                            }, resultCode);
+                    curPermissionIndex = pmsIndex;
+                    super.isEnterSettingPage = 0;
+                } else {
+                    if (super.nextPermission != null)
+                        super.nextPermission.requestPermissions(activity);
+                }
+
+            }
         } else {
             if (super.nextPermission != null) super.nextPermission.requestPermissions(activity);
         }
