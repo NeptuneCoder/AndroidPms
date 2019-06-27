@@ -14,6 +14,8 @@ public class CustomPermission extends AbsBasePermission {
         super(permissionStr, desc, pmsIndex, resultCode, isForce);
     }
 
+    //当前权限不是必须申请的时，界面出现在申请下一个权限进入到设置界面中，返回后提示上一个可以忽略的权限框；
+    //处理业务逻辑是，第一次可以申请，后面不再申请；
     private boolean isFirstRequest = true;
 
     @Override
