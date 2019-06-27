@@ -92,7 +92,9 @@ new PermissionUtil.Builder()
     }
 
 ```
+## 演示视频地址
 
+https://youtu.be/D_bMp_X5Bxg
 
 <video id="video" controls="" preload="none" poster="http://media.w3.org/2010/05/sintel/poster.png">
       <source id="mp4" src="https://youtu.be/D_bMp_X5Bxg" type="video/mp4">
