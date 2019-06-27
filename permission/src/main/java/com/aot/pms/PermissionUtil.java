@@ -107,6 +107,17 @@ public class PermissionUtil implements IPermission {
         }
 
         /**
+         * @param permissionName 申请的 权限，必须是Manifest.permission中定义的
+         * @param tip            如果用户拒绝给该权限的提示
+         * @param isForce        默认为true，权限必须要给，false 权限可忽略
+         * @return
+         */
+        public Builder addPermission(@NonNull String permissionName, @NonNull String tip, boolean isForce) {
+            permissions.add(new Item(permissionName, null == tip ? permissionName : tip, isForce));
+            return this;
+        }
+
+        /**
          * 设置退出的逻辑
          *
          * @param listener
@@ -126,7 +137,7 @@ public class PermissionUtil implements IPermission {
             CustomPermission curPermission = null;//当前的权限
             CustomPermission prePermission = null;//上一个权限
             for (Item item : permissions) {
-                curPermission = new CustomPermission(item.pmsName, item.pmsDesc, i, resultCode + i);
+                curPermission = new CustomPermission(item.pmsName, item.pmsDesc, i, resultCode + i, item.isForce);
                 if (i == 0) {
                     firstPermission = curPermission;
                 }
@@ -141,6 +152,7 @@ public class PermissionUtil implements IPermission {
     }
 
     private static class Item {
+        public boolean isForce = true;
         public String pmsName;
         public String pmsDesc;
 
@@ -149,6 +161,11 @@ public class PermissionUtil implements IPermission {
             this.pmsDesc = pmsDesc;
         }
 
+        public Item(String pmsName, String pmsDesc, boolean isForce) {
+            this.pmsName = pmsName;
+            this.pmsDesc = pmsDesc;
+            this.isForce = isForce;
+        }
 
         public boolean equals(String pmsName) {
             if (pmsName.equals(pmsName)) {

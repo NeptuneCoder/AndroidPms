@@ -29,6 +29,7 @@ public abstract class AbsBasePermission {
      * 当前权限的id
      */
     protected final int pmsIndex;
+    protected final boolean isForce;
     /**
      * 下一个权限
      */
@@ -42,11 +43,12 @@ public abstract class AbsBasePermission {
      */
     static int curPermissionIndex = 0;
 
-    protected AbsBasePermission(String permissionName, String desc, int pmsIndex, int resultCode) {
+    protected AbsBasePermission(String permissionName, String desc, int pmsIndex, int resultCode, boolean isForce) {
         this.permissionName = permissionName;
         this.desc = desc;
         this.pmsIndex = pmsIndex;
         this.resultCode = resultCode;
+        this.isForce = isForce;
     }
 
     public void setNextPermission(AbsBasePermission nextPermission) {

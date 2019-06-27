@@ -10,8 +10,8 @@ import android.support.v4.content.ContextCompat;
 public class CustomPermission extends AbsBasePermission {
 
 
-    public CustomPermission(String permissionStr, String desc, int pmsIndex, int resultCode) {
-        super(permissionStr, desc, pmsIndex, resultCode);
+    public CustomPermission(String permissionStr, String desc, int pmsIndex, int resultCode, boolean isForce) {
+        super(permissionStr, desc, pmsIndex, resultCode, isForce);
     }
 
     @Override
@@ -24,7 +24,6 @@ public class CustomPermission extends AbsBasePermission {
                     }, resultCode);
             curPermissionIndex = pmsIndex;
             super.isEnterSettingPage = 0;
-
         } else {
             if (super.nextPermission != null) super.nextPermission.requestPermissions(activity);
         }
@@ -40,12 +39,17 @@ public class CustomPermission extends AbsBasePermission {
                     super.nextPermission.requestPermissions(activity);
             } else {
                 if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    exitApp(activity, desc, new onRequestPermission() {
-                        @Override
-                        public void reRequestPermission() {
-                            requestPermissions(activity);
-                        }
-                    });
+                    if (isForce) {
+                        exitApp(activity, desc, new onRequestPermission() {
+                            @Override
+                            public void reRequestPermission() {
+                                requestPermissions(activity);
+                            }
+                        });
+                    } else {
+                        if (!isNullOfNextPermission())
+                            super.nextPermission.requestPermissions(activity);
+                    }
                 }
             }
         }

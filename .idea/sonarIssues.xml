@@ -78,6 +78,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/permission/src/main/java/com/aot/pms/VersionUtil.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/permission/src/main/java/com/aot/pms/abs/AbsBasePermission.java">
           <value>
             <set />

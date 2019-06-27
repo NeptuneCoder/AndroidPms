@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .addPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .addPermission(Manifest.permission.CAMERA, Manifest.permission.CAMERA)
+                .addPermission(Manifest.permission.CAMERA, Manifest.permission.CAMERA, false)
                 .addPermission(Manifest.permission.CALL_PHONE, Manifest.permission.CALL_PHONE)
                 .addPermission(Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_STATE)
                 .addPermission(Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_STATE)

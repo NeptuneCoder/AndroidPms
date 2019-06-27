@@ -1,6 +1,7 @@
 # AndroidPms
 
-逐一处理申请的权限，获取到当前权限后，再申请下一个权限。
+逐一处理申请的权限，获取到权限成功后，才能申请下一个权限。如果调用addPermission(@NonNull String permissionName, @NonNull String tip, boolean isForce)方法，
+第三个参数传入false时，则当前权限不是必须。
 
 #### 配置需要申请的权限
 
@@ -22,6 +23,37 @@ new PermissionUtil.Builder()
                 .addPermission(Manifest.permission.READ_SMS, Manifest.permission.READ_SMS)
                 .build();
    
+```
+#### 默认条件下，权限是必须申请成功才能进行下一个权限申请
+
+```groovy
+  /**
+         * @param permissionName 申请的 权限，必须是Manifest.permission中定义的
+         * @param tip            如果用户拒绝给该权限的提示
+         * @return
+         */
+        public Builder addPermission(@NonNull String permissionName, @NonNull String tip) {
+            permissions.add(new Item(permissionName, null == tip ? permissionName : tip));
+            return this;
+        }
+```
+
+#### 默认条件下，全是都是必须要给的，才能进行下一个权限的申请。如果权限是非必须的，则对一下个权限进行申请。
+
+```groovy
+
+  /**
+         * @param permissionName 申请的 权限，必须是Manifest.permission中定义的
+         * @param tip            如果用户拒绝给该权限的提示
+         * @param isForce        默认为true，权限必须要给，false 权限可忽略
+         * @return
+         */
+        public Builder addPermission(@NonNull String permissionName, @NonNull String tip, boolean isForce) {
+            permissions.add(new Item(permissionName, null == tip ? permissionName : tip, isForce));
+            return this;
+        }
+
+
 ```
 
 #### build之后，调用申请权限的方法
