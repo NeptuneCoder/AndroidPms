@@ -3,6 +3,8 @@
 逐一处理申请的权限，获取到权限成功后，才能申请下一个权限。如果调用addPermission(@NonNull String permissionName, @NonNull String tip, boolean isForce)方法，
 第三个参数传入false时，则当前权限不是必须。
 
+## 相关方法说明
+
 #### 配置需要申请的权限
 
 ```groovy
@@ -24,6 +26,7 @@ new PermissionUtil.Builder()
                 .build();
    
 ```
+
 #### 默认条件下，权限是必须申请成功才能进行下一个权限申请
 
 ```groovy
@@ -88,4 +91,53 @@ new PermissionUtil.Builder()
         PermissionUtil.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+```
+
+## 使用事例
+
+```java
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        new PermissionUtil.Builder()
+                .setActivity(this)
+                //添加退出的回调
+                .setExitListener(new IExitListener() {
+                    @Override
+                    public void exit() {
+                    }
+                })
+                .addPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .addPermission(Manifest.permission.CAMERA, Manifest.permission.CAMERA, false) //该权限可以不必须申请
+                .addPermission(Manifest.permission.CALL_PHONE, Manifest.permission.CALL_PHONE)
+                .addPermission(Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_STATE)
+                .addPermission(Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_STATE)
+                .addPermission(Manifest.permission.READ_SMS, Manifest.permission.READ_SMS)
+                .build();
+        PermissionUtil.getInstance().requestPermissions();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //是否选中了"不再询问"，如果选中了不再询问，进入了设置界面，返回到首页时，是否提示申请权限
+        boolean b = PermissionUtil.getInstance().enterSettingPage();
+        Log.i("onResume", "onResume = " + b);
+        if (b) {
+            PermissionUtil.getInstance().requestPermissions();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //设置权限的回调
+        PermissionUtil.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+}
 ```
