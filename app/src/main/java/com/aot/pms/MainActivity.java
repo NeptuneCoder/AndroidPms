@@ -1,9 +1,9 @@
 package com.aot.pms;
 
 import android.Manifest;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 
 import com.aot.pms.abs.IExitListener;
@@ -14,8 +14,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new PermissionUtil.Builder()
-                .setActivity(this)
+        PermissionUtil.createBuilder()
+                .with(this)
                 //添加退出的回调
                 .setExitListener(new IExitListener() {
                     @Override

@@ -1,7 +1,9 @@
 package com.aot.pms;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.aot.pms.abs.AbsBasePermission;
 import com.aot.pms.abs.CustomPermission;
@@ -43,9 +45,14 @@ public class PermissionUtil implements IPermission {
      */
     public void requestPermissions() {
         //构建完所有的权限后，请求第一个权限；
+        if (weakRefActivity == null) {
+            throw new IllegalArgumentException("please set context");
+        }
         Activity activity = weakRefActivity.get();
         if (activity != null && firstPermission != null) {
             firstPermission.requestPermissions(activity);
+        } else {
+            throw new IllegalArgumentException("please check permission");
         }
     }
 
@@ -80,6 +87,7 @@ public class PermissionUtil implements IPermission {
     }
 
     private static WeakReference<Activity> weakRefActivity;
+    private static WeakReference<Fragment> weakRefFragment;
 
     private static IExitListener exitListener;
 
@@ -87,13 +95,16 @@ public class PermissionUtil implements IPermission {
         return exitListener;
     }
 
-    public static class Builder {
-        private ArrayList<Item> permissions = new ArrayList<>();
+    public static Builder createBuilder() {
+        return new Builder();
+    }
 
-        public Builder setActivity(Activity activity) {
-            weakRefActivity = new WeakReference(activity);
-            return this;
+    public static class Builder {
+        private Builder() {
+
         }
+
+        private ArrayList<Item> permissions = new ArrayList<>();
 
 
         /**
@@ -102,7 +113,7 @@ public class PermissionUtil implements IPermission {
          * @return
          */
         public Builder addPermission(@NonNull String permissionName, @NonNull String tip) {
-            permissions.add(new Item(permissionName, null == tip ? permissionName : tip));
+            permissions.add(new Item(permissionName, null != tip ? tip : permissionName));
             return this;
         }
 
@@ -134,10 +145,9 @@ public class PermissionUtil implements IPermission {
         public Builder build() {
             int i = 0;
             int resultCode = 1000;
-            CustomPermission curPermission = null;//当前的权限
             CustomPermission prePermission = null;//上一个权限
             for (Item item : permissions) {
-                curPermission = new CustomPermission(item.pmsName, item.pmsDesc, i, resultCode + i, item.isForce);
+                CustomPermission curPermission = new CustomPermission(item.pmsName, item.pmsDesc, i, resultCode + i, item.isForce);
                 if (i == 0) {
                     firstPermission = curPermission;
                 }
@@ -147,6 +157,16 @@ public class PermissionUtil implements IPermission {
                 prePermission = curPermission;
                 i++;
             }
+            return this;
+        }
+
+        public Builder with(Activity activity) {
+            weakRefActivity = new WeakReference(activity);
+            return this;
+        }
+
+        public Builder with(Fragment activity) {
+            weakRefFragment = new WeakReference(activity);
             return this;
         }
     }
