@@ -8,22 +8,22 @@
 #### 配置需要申请的权限
 
 ```groovy
-new PermissionUtil.Builder()
-                .setActivity(this)//添加上下文
+PermissionUtil.createBuilder()
+                .with(this)
                 //添加退出的回调
                 .setExitListener(new IExitListener() {
                     @Override
                     public void exit() {
                     }
                 })
-//                添加需要申请的权限，添加的顺序也就是权限申请的顺序
                 .addPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .addPermission(Manifest.permission.CAMERA, Manifest.permission.CAMERA)
+                .addPermission(Manifest.permission.CAMERA, Manifest.permission.CAMERA, false)
                 .addPermission(Manifest.permission.CALL_PHONE, Manifest.permission.CALL_PHONE)
                 .addPermission(Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_STATE)
                 .addPermission(Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_STATE)
                 .addPermission(Manifest.permission.READ_SMS, Manifest.permission.READ_SMS)
                 .build();
+        PermissionUtil.getInstance().requestPermissions();
    
 ```
 
