@@ -1,5 +1,7 @@
 # AndroidPms
 
+当年写的代码太差劲了！！！！
+
 逐一处理申请的权限，获取到权限成功后，才能申请下一个权限。如果调用addPermission(@NonNull String permissionName, @NonNull String tip, boolean isForce)方法，
 第三个参数传入false时，则当前权限不是必须。
 

@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+class PermissionHelper{
+PermissionHelper getInstance();
+void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+void requestPermissions()
+boolean enterSettingPage()：进入设置界面
+
+}
+class Item{
+ boolean isForce = true;//true，必须获得该权限，false 权限可忽略
+String pmsName;
+String pmsDesc;
+}
+
+PermissionHelper.Builder o-- Item
+class PermissionHelper.Builder{
+ArrayList<Item> permissions;
+Builder setExitListener(OnExitListener listener)
+Builder addPermission(@NonNull String permissionName, @NonNull String tip, boolean isForce)
+Builder build()
+Builder addPermission(@NonNull String permissionName, @NonNull String tip)
+
+
+}
+
+abstract class AbsBasePermission{
+
+}
+@enduml
