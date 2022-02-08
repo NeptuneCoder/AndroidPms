@@ -1,6 +1,6 @@
 package com.aot.pms.permission;
 
-public class ConcretePermission {
+public class PermissionNode {
 
     /**
      * 每一个权限，都有唯一的判断的code码，防止多个权限用同一个code导致的无法区分
@@ -24,7 +24,7 @@ public class ConcretePermission {
     /**
      * 下一个权限
      */
-    protected ConcretePermission nextPermission;
+    protected PermissionNode nextPermission;
     /**
      * 申请的权限名字
      */
@@ -40,13 +40,13 @@ public class ConcretePermission {
      * @param resultCode
      * @param isMust
      */
-    public ConcretePermission(String permissionName, int resultCode, boolean isMust) {
+    public PermissionNode(String permissionName, int resultCode, boolean isMust) {
         this.permissionName = permissionName;
         this.requestCode = resultCode;
         this.isMust = isMust;
     }
 
-    public void setNextPermission(ConcretePermission nextPermission) {
+    public void setNextPermission(PermissionNode nextPermission) {
         this.nextPermission = nextPermission;
     }
 
@@ -55,7 +55,7 @@ public class ConcretePermission {
      *
      * @return
      */
-    public ConcretePermission getNextPermission() {
+    public PermissionNode getNextPermission() {
         return nextPermission;
     }
 

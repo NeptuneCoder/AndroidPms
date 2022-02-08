@@ -1,0 +1,69 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+
+def ossrhUsername = "yanghai0523"
+def ossrhPassword = "F22@sonatype"//"在SonaType上申请的密码"
+
+def PUBLISH_GROUP_ID = 'io.github.haiyangcode' //这里可以不是直接申请时候的groupId只要开头是就可以
+
+def PUBLISH_ARTIFACT_ID = "andPms"
+
+def PUBLISH_VERSION = "0.0.2" //这个是直接获取的库gradle里配置好的版本号，不用到处修改版本号，只需要维护一份就可以。
+
+//签名
+signing {
+    required { gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.groupId = PUBLISH_GROUP_ID
+            pom.artifactId = PUBLISH_ARTIFACT_ID
+            pom.version = PUBLISH_VERSION
+
+            pom.project {
+                name 'andPms'
+                packaging 'aar' //我这里发布的是安卓的包，所有写的aar
+                // optionally artifactId can be defined here
+                description '这里是android权限申请工具类'//'发布包的描述'
+                url 'https://github.com/HaiYangCode/AndroidPms'
+
+                scm {
+                    connection 'scm:https://github.com/HaiYangCode/AndroidPms'//''scm:替换成项目git地址'
+                    developerConnection 'scm:https://github.com/HaiYangCode/AndroidPms'
+//''scm:替换为git开头的项目地址'
+                    url 'https://github.com/HaiYangCode/AndroidPms'//'项目首页，可以是github项目的主页'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'yanghai0523'
+                        name '这里随意填写就可以'
+                        email 'yanghai0523@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}

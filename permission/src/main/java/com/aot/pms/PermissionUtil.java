@@ -10,27 +10,22 @@ import androidx.fragment.app.Fragment;
 import com.aot.pms.listener.OnExitListener;
 import com.aot.pms.listener.OnExplainListener;
 import com.aot.pms.listener.OnPermissionCallbackListener;
-import com.aot.pms.permission.ConcretePermission;
+import com.aot.pms.permission.PermissionNode;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
-public class
+public class PermissionUtil implements OnPermissionCallbackListener {
 
-
-
-
-PermissionHelper implements OnPermissionCallbackListener {
-
-    private PermissionHelper() {
+    private PermissionUtil() {
     }
 
     private static class Holder {
-        private static PermissionHelper instance = new PermissionHelper();
+        private static PermissionUtil instance = new PermissionUtil();
     }
 
-    public static PermissionHelper getInstance() {
+    public static PermissionUtil getInstance() {
         return Holder.instance;
     }
 
@@ -64,7 +59,7 @@ PermissionHelper implements OnPermissionCallbackListener {
 
     //    curPermission = curPermission.getNextPermission();
     //记录第一个权限
-    private static ConcretePermission curPermission = null;
+    private static PermissionNode curPermission = null;
 
     /**
      * 构建所有的权限后，调用该方法开始申请权限
@@ -119,7 +114,7 @@ PermissionHelper implements OnPermissionCallbackListener {
         private Builder() {
         }
 
-        private final ArrayList<ConcretePermission> permissions = new ArrayList<>();
+        private final ArrayList<PermissionNode> permissions = new ArrayList<>();
 
 
         /**
@@ -128,7 +123,7 @@ PermissionHelper implements OnPermissionCallbackListener {
          */
         public Builder addPermission(@NonNull String permissionName) {
             i++;
-            permissions.add(new ConcretePermission(permissionName, i + resultCode, false));
+            permissions.add(new PermissionNode(permissionName, i + resultCode, false));
             return this;
         }
 
@@ -143,7 +138,7 @@ PermissionHelper implements OnPermissionCallbackListener {
 
         public Builder addPermission(@NonNull String permissionName, boolean isForce) {
             i++;
-            permissions.add(new ConcretePermission(permissionName, i + resultCode, isForce));
+            permissions.add(new PermissionNode(permissionName, i + resultCode, isForce));
             return this;
         }
 
@@ -166,13 +161,13 @@ PermissionHelper implements OnPermissionCallbackListener {
         /**
          * 将多个权限以链表的方式连接在一起
          */
-        public Builder build() {
+        public Builder buildPerChain() {
             int i = 0;
-            ConcretePermission prePermission = null;//上一个权限
-            for (ConcretePermission item : permissions) {
+            PermissionNode prePermission = null;//上一个权限
+            for (PermissionNode item : permissions) {
 
                 if (i == 0) {
-                    PermissionHelper.curPermission = item;
+                    PermissionUtil.curPermission = item;
                 }
                 if (prePermission != null) {
                     prePermission.setNextPermission(item);
